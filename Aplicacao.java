@@ -1,112 +1,53 @@
-import java.util.Scanner; // Importa a classe Scanner para ler a entrada do usuário.
+import java.util.Locale;
+import java.util.Scanner;
 
+/**
+ * Classe principal para testar a hierarquia de classes Veiculo, Avião e Navio.
+ */
 
-public class Aplicacao {
-
+ public class Aplicacao {
     public static void main(String[] args) {
-        // Cria um objeto Scanner para ler o que o usuário digita no console.
-        Scanner leitor = new Scanner(System.in);
+        //Configura o Locale para usar o ponto como separador decimal no Scanner
+        Locale.setDefault(Locale.US);
+        Scanner scanner = new Scanner (System.in);
 
-        // --- OBJETOS 1 E 2: USANDO CONSTRUTOR DEFAULT ---
-        System.out.println("--- CADASTRO DO COMPUTADOR 1 (com construtor default) ---");
-        Computador comp1 = new Computador(); // Cria o objeto usando o construtor sem parâmetros.
+        //Criação de um vetor único da superclasse Veiculo para armazenar 20 objetos.
+        //Este é o poliformismo: um vetor de Veiculo pode conter objetos Aviao e Navio.
 
-        System.out.print("Digite a marca: ");
-        comp1.setMarca(leitor.nextLine());
+        Veiculo[] frota = new Veiculo[20];
 
-        System.out.print("Digite o modelo: ");
-        comp1.setModelo(leitor.nextLine());
+        System.out.println("Cadastro da Frota" );
 
-        System.out.print("Digite o processador: ");
-        comp1.setProcessador(leitor.nextLine());
+        // Criando e preenchendo os 10 primeiros objetos para o Avião
+        System.out.println("Cadastrando 10 Aviões: ");
+        for (int i = 0; i < 10; i++) {
+            System.out.println("Inserindo dados para o Avião #" + (i + 1));
+            //Utilizar o construtor vazio para criar a instância
+            frota[i] = new Aviao();
+            //Chama o método de entrada para preencher os dados do objeto
+            frota[i].entrada(scanner);
+        }
 
-        System.out.print("Digite a memória RAM (GB): ");
-        comp1.setMemoriaRAM(leitor.nextInt());
-        leitor.nextLine(); 
+        // Criando e preenchendo os 10 primeiros objetos para o Navio
+        System.out.println("Cadastrando 10 Navios: ");
+        for (int i = 10; i < 20; i++) {
+            System.out.println("Inserindo dados para o Navio #" + (i - 9));
+            //Utilizar o construtor vazio para criar a instância
+            frota[i] = new Navio();
+            //Chama o método de entrada para preencher os dados do objeto
+            frota[i].entrada(scanner);
+        }
 
-        System.out.print("Digite o armazenamento (GB): ");
-        comp1.setArmazenamento(leitor.nextInt());
-        leitor.nextLine(); 
+        //Imprimindo os dados de todos os veículos cadastrados
+        System.out.println("\n Relatório completo da Frota: ");
 
-        System.out.println("\n--- CADASTRO DO COMPUTADOR 2 (com construtor default) ---");
-        Computador comp2 = new Computador();
+        //Imprimindo os dados de todos os veículos da frota
+        for (Veiculo v : frota) {
+            //O método imprimir() é chamado de forma polimórfica. Cada objeto responde de acordo com sua classe real (Aviao ou Navio)
+            v.imprimir();
+        }
 
-        System.out.print("Digite a marca: ");
-        comp2.setMarca(leitor.nextLine());
-
-        System.out.print("Digite o modelo: ");
-        comp2.setModelo(leitor.nextLine());
-
-        System.out.print("Digite o processador: ");
-        comp2.setProcessador(leitor.nextLine());
-
-        System.out.print("Digite a memória RAM (GB): ");
-        comp2.setMemoriaRAM(leitor.nextInt());
-        leitor.nextLine();
-
-        System.out.print("Digite o armazenamento (GB): ");
-        comp2.setArmazenamento(leitor.nextInt());
-        leitor.nextLine();
-
-        // --- OBJETOS 3 E 4: USANDO CONSTRUTOR COM PARÂMETROS ---
-        System.out.println("\n--- CADASTRO DO COMPUTADOR 3 (com construtor de parâmetros) ---");
-        System.out.print("Digite a marca: ");
-        String marca3 = leitor.nextLine();
-
-        System.out.print("Digite o modelo: ");
-        String modelo3 = leitor.nextLine();
-
-        System.out.print("Digite o processador: ");
-        String processador3 = leitor.nextLine();
-
-        System.out.print("Digite a memória RAM (GB): ");
-        int ram3 = leitor.nextInt();
-        leitor.nextLine();
-
-        System.out.print("Digite o armazenamento (GB): ");
-        int armazenamento3 = leitor.nextInt();
-        leitor.nextLine();
-
-        // Cria o objeto passando as variáveis diretamente para o construtor.
-        Computador comp3 = new Computador(marca3, modelo3, processador3, ram3, armazenamento3);
-
-
-        System.out.println("\n--- CADASTRO DO COMPUTADOR 4 (com construtor de parâmetros) ---");
-        System.out.print("Digite a marca: ");
-        String marca4 = leitor.nextLine();
-
-        System.out.print("Digite o modelo: ");
-        String modelo4 = leitor.nextLine();
-
-        System.out.print("Digite o processador: ");
-        String processador4 = leitor.nextLine();
-
-        System.out.print("Digite a memória RAM (GB): ");
-        int ram4 = leitor.nextInt();
-        leitor.nextLine();
-
-        System.out.print("Digite o armazenamento (GB): ");
-        int armazenamento4 = leitor.nextInt();
-        leitor.nextLine();
-
-        Computador comp4 = new Computador(marca4, modelo4, processador4, ram4, armazenamento4);
-
-        // --- EXIBIÇÃO FINAL DOS DADOS ---
-        System.out.println("\n--- DADOS DO COMPUTADOR 1 ---");
-        comp1.imprimir();
-
-        System.out.println("\n--- DADOS DO COMPUTADOR 2 ---");
-        comp2.imprimir();
-
-        System.out.println("\n--- DADOS DO COMPUTADOR 3 ---");
-        comp3.imprimir();
-
-        System.out.println("\n--- DADOS DO COMPUTADOR 4 ---");
-        comp4.imprimir();
-
-        // Fecha o leitor para liberar recursos do sistema.
-        leitor.close();
+        scanner.close();
+        System.out.println("Programa encerrado." );
     }
-}
-    
-
+ }
